@@ -24,23 +24,23 @@ const io = socket(server, {
 });
 
 // comment:socket para chat con todos los usuarios
-io.on("connection", (socket) => {
-  console.log("a user connected" + socket.id);
-  socket.on("chat:message", (data) => {
-    console.log(data);
-    socket.emit("chat:message", data);
-  });
-});
-
-// comment:socket para chat con una sala
 // io.on("connection", (socket) => {
-//   socket.on("roomchat", (data) => {
-//     let dispositivo = socket.id;
-
-//     socket.join(data.room);
-//     console.log(
-//       "el dispositivo:" + dispositivo + " se ha unido a la sala:" + data.room
-//     );
-//     socket.to(data.room).emit("roomchat", { dispositivo });
+//   console.log("a user connected" + socket.id);
+//   socket.on("chat:message", (data) => {
+//     console.log(data);
+//     socket.emit("chat:message", data);
 //   });
 // });
+
+// comment:socket para chat con una sala
+io.on("connection", (socket) => {
+  socket.on("roomchat", (data) => {
+    let dispositivo = socket.id;
+
+    socket.join(data.room);
+    console.log(
+      "el dispositivo:" + dispositivo + " se ha unido a la sala:" + data.room
+    );
+    socket.to(data.room).emit("roomchat", { dispositivo });
+  });
+});
